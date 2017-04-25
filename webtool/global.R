@@ -6,8 +6,8 @@
 # by Grupo AIA (www.aia.es).
 # 
 # Authors: 
-# -- xclotet (clotetx@aia.es)
-# -- mhalat (halatm@aia.es)
+# -- xclotet (clotetx@aia.es) @xclotet
+# -- mhalat  (halatm@aia.es)
 # 
 # -------------------------------------------------------------------------
 # 
@@ -43,6 +43,11 @@ source("scripts/db_operations.R")
 source("scripts/eng_measures_analisys.R")
 source("scripts/ElectricalGrid_analysis.R")
 source("scripts/LandTransportation_analysis.R")
+
+
+# <-- GeoJSON functions ---------------------------------------------------
+
+source("scripts/GeoJSON_functions.R")
 
 # <-- Load EWE data -------------------------------------------------------
 
@@ -224,7 +229,6 @@ telco.towers <- telco.towers[, .(X, Y,  osm_id, man_made)]
 
 # <-- TOPO DATA : electrical grid -----------------------------------------
 #
-source("scripts/GeoJSON_functions.R")
 data.path <- "data/"
 data.file <- "Segments_Lines_FINAL.geojson"
 topoData.Lines <- topoData.import(paste0(data.path, data.file))

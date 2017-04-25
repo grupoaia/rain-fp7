@@ -22,7 +22,12 @@ require(RPostgreSQL)
 require(dplyr)
 require(data.table)
 
-source("../scripts/db_hidden_access.R")
+src_postgres_get <- function() {
+  return(src_postgres(dbname = "RAIN", 
+                      host = "xx.xx.xx.xx", port = "xxxx",
+                      user = "user", password = "pass",
+                      options = "-c search_path=alpine"))
+}
 dbRAIN <- src_postgres_get()
 
 t.grid <- tbl(dbRAIN, "grid")

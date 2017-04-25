@@ -29,8 +29,6 @@ dbHeader$children[[2]]$children <-  tags$a(href = 'http://rain-project.eu/',
                                            target = "_blank", 
                                            tags$img(src = 'logo_RAIN_AIA.png', 
                                                     height = '60'))
-# tags$head(tags$title("RAIN project"))
-
 
 # Side bar ----------------------------------------------------------------
 
@@ -52,14 +50,14 @@ sidebar <- dashboardSidebar(
   width = 165,
   sidebarMenu(id = "siderbar",
               menuItem("Initialization", tabName = "basic", icon = icon("tasks")),
-              menuItem("Electrical Analysis", tabName = "basic_map", icon = icon("bolt")), # icon("map-o")),
+              menuItem("Electrical Analysis", tabName = "basic_map", icon = icon("bolt")),
               menuItem("Land Transportation", tabName = "trans_basic_map", icon = icon("road")),
               menuItem("Configuration", tabName = "config", icon = icon("dashboard")),
               menuItem("Weather", tabName = "weather", icon = icon("cloud")),
               menuItem("Technical details", icon = icon("cogs"), tabName = "technical"),
               menuItem("About", icon = icon("info"), tabName = "about")
   )
-  )
+)
 
 
 # Body --------------------------------------------------------------------
@@ -98,8 +96,8 @@ body <- dashboardBody(
                                           });
                                           }
                                           "))
-                         )
-                         ),
+                       )
+                     ),
                      uiOutput("ewe.config"),
                      box(
                        title = "Landslide probability", 
@@ -123,15 +121,6 @@ body <- dashboardBody(
                                    selected = "", selectize = T),
                        uiOutput("town_info")
                      ),
-                     # hr(),
-                     # box(
-                     #   title = "Location", width = NULL, solidHeader = TRUE, status = "primary",
-                     #   selectInput("location", label = "Select location", 
-                     #               choices = locations$name, 
-                     #               selected = locations[1]$name)
-                     # ),
-                     # hr(),
-                     # actionButton("recalc", "New points")
                      box(
                        title = "Season & time", width = NULL, 
                        solidHeader = TRUE, status = "primary",
@@ -141,18 +130,7 @@ body <- dashboardBody(
                                     choices = list("Summer" = "summer", "Winter" = "winter"), 
                                     selected = "summer")
                      )
-                     # hr(),
-                     # box(
-                     #   title = "Simulate", width = NULL, solidHeader = TRUE, status = "warning",
-                     #   actionButton("simulate", label = "Start simulation")
-                     # ),
-                     # bsModal("modalExample", "Simulation configuration summary", "simulate",
-                     # # size = "medium",
-                     #         htmlOutput("simulate.text"),
-                     #         hr(),
-                     #         uiOutput("simulate.modal")
-                     # )
-                         ),
+              ),
               # <-- Map Column -------------------------------------------------
               column(width = 9,
                      fluidRow(
@@ -181,7 +159,7 @@ body <- dashboardBody(
                            and the Open Sreet Map tiles (OSM)."),
                          actionButton("reloadMap", "Reload map", 
                                       icon = icon("retweet"))
-                         ),
+                       ),
                        leafletOutput("map", height = "500px"),
                        # textOutput("test.text2"),
                        uiOutput("mapstations"),
@@ -190,10 +168,10 @@ body <- dashboardBody(
                        uiOutput("nodes.BN"),
                        uiOutput("risk.profile.UI"),
                        uiOutput("consequences.investment.ui")
-                         )
                      )
               )
-                     ),
+            )
+    ),
     
     # Tab: LAND TRANSPORTATION ------------------------------------
     tabItem(tabName = "trans_basic_map",
@@ -222,20 +200,7 @@ body <- dashboardBody(
                        p(""),
                        actionButton("trans_reassessButton", "(re)Assess Probabilities",
                                     icon = icon("retweet"))
-                       # checkboxInput("demo", "Demo mode")
                      ),
-                     # box(
-                     #   title = "Affected town or region", width = NULL, solidHeader = TRUE,
-                     #   status = "primary",
-                     #   # collapsible = T,
-                     #   strong("Select")," affected town from the", strong(" list"),
-                     #   "or pick an electrical station on the", strong(" map."),
-                     #   hr(),
-                     #   selectInput("town", label = "Town list:",
-                     #               choices = c("", towns[, unique(name)]),
-                     #               selected = "", selectize = T),
-                     #   uiOutput("town_info")
-                     # ),
                      box(
                        title = "Season & time", width = NULL, 
                        solidHeader = TRUE, status = "primary",
@@ -245,49 +210,42 @@ body <- dashboardBody(
                                     choices = list("Summer" = "summer", "Winter" = "winter"), 
                                     selected = "summer")
                      )
-            ),
-            # <-- Map Column -------------------------------------------------
-            column(width = 9,
-                   fluidRow(
-                     box(
-                       title = "Description of the map", width = NULL, 
-                       solidHeader = FALSE, status = "primary", 
-                       collapsible = TRUE, collapsed = TRUE,
-                       p("Map of the ", strong("Alpine region case study."), 
-                         " It includes the municipalities of Malborghetto Valbruna, 
+              ),
+              # <-- Map Column -------------------------------------------------
+              column(width = 9,
+                     fluidRow(
+                       box(
+                         title = "Description of the map", width = NULL, 
+                         solidHeader = FALSE, status = "primary", 
+                         collapsible = TRUE, collapsed = TRUE,
+                         p("Map of the ", strong("Alpine region case study."), 
+                           " It includes the municipalities of Malborghetto Valbruna, 
                          Pontebba and Tarviso at Val Canale (Canal Valley) in 
                          the province of Udine, Italy."),
-                       p("Main land transportation routes are shown:",
-                         strong("Railway"), " (black) and roads ", strong("A23"), " (blue) and ",
-                         strong("SS13"), " (red)."),
-                       p("Darker sections correspond to tunnels and 
+                         p("Main land transportation routes are shown:",
+                           strong("Railway"), " (black) and roads ", strong("A23"), " (blue) and ",
+                           strong("SS13"), " (red)."),
+                         p("Darker sections correspond to tunnels and 
                          lighter sections to bridges.",
-                         "Click on them to get more information (route, name...)."),
-                       p(strong("Susceptibility to a landslide"), 
-                         "of each point in the region is plotted on the 
+                           "Click on them to get more information (route, name...)."),
+                         p(strong("Susceptibility to a landslide"), 
+                           "of each point in the region is plotted on the 
                          background as a colormap."),
-                       p("Use the layer options panel on the right top corner
+                         p("Use the layer options panel on the right top corner
                          to show/hide each layer. It is possible to change the 
                          background map between the CartoDB tiles (Default) 
                          and the Open Sreet Map tiles (OSM)."),
-                       actionButton("trans_reloadMap", "Reload map", 
-                                    icon = icon("retweet"))
-                       # )
+                         actionButton("trans_reloadMap", "Reload map", 
+                                      icon = icon("retweet"))
                        ),
-                     leafletOutput("trans_map", height = "500px"),
-                     uiOutput("maproads"),
-                     # # textOutput("test.text2"),
-                     # uiOutput("mapstations"),
-                     # uiOutput("maplines"),
-                     # uiOutput("context"),
-                     uiOutput("nodes.road.BN"),
-                     uiOutput("nodes.train.BN")
-                     # uiOutput("risk.profile.UI"),
-                     # uiOutput("consequences.investment.ui")
-                       )
-                   )
+                       leafletOutput("trans_map", height = "500px"),
+                       uiOutput("maproads"),
+                       uiOutput("nodes.road.BN"),
+                       uiOutput("nodes.train.BN")
                      )
-                   ),
+              )
+            )
+    ),
     
     # Tab: CONFIG ----------------------------------------------
     tabItem(tabName = "config",
@@ -316,8 +274,7 @@ body <- dashboardBody(
                       hr(),
                       uiOutput("computemodel.modal")
               )
-              # uiOutput("region_config")
-              ),
+            ),
             box(
               title = "Engineering measures", width = NULL, 
               solidHeader = TRUE, status = "warning", 
@@ -344,8 +301,8 @@ body <- dashboardBody(
               uiOutput("resettableInput.eng"),
               p("Available elements and specific types:"),
               DT::dataTableOutput("eng.measures.available.type")
-              )
-              ),
+            )
+    ),
     
     
     # Tab: WEATHER -----------------------------------------------
@@ -366,13 +323,11 @@ body <- dashboardBody(
                                     style = "text-align: center;"),
                                 br()),
                        tabPanel("Heavy precipitation (cumulative)",
-                                # htmlOutput("weatherPrecipitationCumulative"),
                                 div(img(src = "ReturnTimes_Precipitation_day.png", 
                                         width = "85%"), 
                                     style = "text-align: center;"),
                                 br()),
                        tabPanel("Windstorm",
-                                # htmlOutput("weatherWindstorm"),
                                 div(img(src = "ReturnTimes_Windstorm.png", 
                                         width = "85%"), 
                                     style = "text-align: center;"),
@@ -403,7 +358,6 @@ body <- dashboardBody(
             fluidRow(
               column(width = 12,
                      box(width = NULL,
-                         # includeHTML("www/about.html")
                          htmlOutput("about")
                      ),
                      box(
@@ -411,7 +365,6 @@ body <- dashboardBody(
                        collapsible = T, collapsed = F, #status = "warning",
                        htmlOutput("credits"),
                        htmlOutput("references")
-                       # includeHTML("www/references.html")
                      ),
                      box(title = "Terms & Conditions", width = NULL, solidHeader = TRUE,
                          collapsible = T, collapsed = F,
@@ -420,8 +373,8 @@ body <- dashboardBody(
             )
     )
     
-              )
-    )
+  )
+)
 
 # # Page --------------------------------------------------------------------
 # 

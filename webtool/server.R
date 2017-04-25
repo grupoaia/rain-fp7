@@ -1,7 +1,17 @@
 # -------------------------------------------------------------------------
-# AlpineCase_BN_vis
+# Risk Assessment Tool 
 # 
-# server
+# Tool developed within the "Risk Analysis of Infrastructure Networks in 
+# response to extreme weather" (RAIN) FP7 European project (rain-project.eu) 
+# by Grupo AIA (www.aia.es).
+# 
+# Authors: 
+# -- xclotet (clotetx@aia.es) @xclotet
+# -- mhalat  (halatm@aia.es)
+# 
+# -------------------------------------------------------------------------
+# 
+# server.R
 # -------------------------------------------------------------------------
 
 
@@ -10,7 +20,6 @@
 require(shiny)
 require(data.table)
 
-# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
   
   improvement.n.max.ctt <- 11
@@ -25,7 +34,7 @@ shinyServer(function(input, output, session) {
       visEvents(select = "function(nodes) {
                 Shiny.onInputChange('current_node_id', nodes.nodes);
                 ;}")
-})
+  })
   
   # <-- Electrical Network BN ---------------------------------------------
   electrical.BN <- reactiveValues(node.id = NULL,
@@ -86,7 +95,7 @@ shinyServer(function(input, output, session) {
           highlighted. Zoom in/out using the scroll wheel."),
         visNetworkOutput("Net.electrical.BN", 
                          width = "100%", height = "500px")
-        )
+      )
     }
   })
   
@@ -447,14 +456,12 @@ shinyServer(function(input, output, session) {
             protection measures to be considered, click the Assess Consequences button."),
           actionButton("reassessConsequences", "Assess Consequences", 
                        icon = icon("retweet"))
-          )
+        )
       } else {
         box(
           title = "Consequences plot", 
           width = NULL, 
           color = "black", collapsible = T, collapsed = FALSE, status = "success",
-          # p(paste0("Posterior failure probabilities of the electrical components given failure of ", 
-          #         electrical.BN$name, " station.")),
           p("To (re)assess the economic consequences of a blackout and the possible 
             protection measures to be considered in the new weather event scenario, 
             click the (r)Assess Consequences button."),
@@ -479,10 +486,10 @@ shinyServer(function(input, output, session) {
             invested in) and the value of the expected total cost are displayed. 
             Clicking on the legend allows to hide/show each type of cost."),
           plotlyOutput("consequences.investment.plotbars")
-          )
+        )
       }
     }
-    })
+  })
   
   # <-- Town ----------------------------------------------------------------
   
@@ -539,7 +546,6 @@ shinyServer(function(input, output, session) {
   telco.icon <- awesomeIcons(icon = "ion-wifi",
                              library = "ion",
                              markerColor = 	"lightgray")
-  # markerColor = 	"#D3D3D3")
   
   withProgress(message = 'preparing map', value = 0.2, style = style, {
     
@@ -763,7 +769,7 @@ shinyServer(function(input, output, session) {
           The indirect cost of the blackout depends on this consumption."),
         plotOutput("bu.area.plot")
         # p(".")
-        )
+      )
     }
   })
   
@@ -967,7 +973,7 @@ shinyServer(function(input, output, session) {
         highlighted. Zoom in/out using the scroll wheel."),
       visNetworkOutput("Net.road.BN", 
                        width = "100%", height = "500px")
-      )
+    )
   })
   
   # <-- Land Transportation BN : train ---------------------------------------
@@ -1011,7 +1017,7 @@ shinyServer(function(input, output, session) {
         highlighted. Zoom in/out using the scroll wheel."),
       visNetworkOutput("Net.train.BN", 
                        width = "100%", height = "500px")
-      )
+    )
   })
   
   # <-- trans_map : tunnels & bridges info -----------------------------------
@@ -1504,4 +1510,4 @@ shinyServer(function(input, output, session) {
   output$credits <- renderUI({get.credits()})
   output$references <- renderUI({get.references()})
   output$termsConditions <- renderUI({get.termsConditions()})
-    })
+})
