@@ -12,4 +12,4 @@ Authors:
 * M. Halat  (halatm@aia.es)
 
 ----------
-*This project has received funding from the European Union's Seventh Programme for research, technological development and demonstration under grant agreement N. 608166.*
+*RAIN project has received funding from the European Union's Seventh Programme for research, technological development and demonstration under grant agreement N. 608166.*
