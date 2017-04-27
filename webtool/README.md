@@ -20,5 +20,17 @@ Authors:
 * X. Clotet (clotetx@aia.es) [\@xclotet](https://github.com/xclotet)
 * M. Halat  (halatm@aia.es)
 
+
+# Installation
+
+To install and use the webtool, [R](https://www.r-project.org/) installation and a working [PostgreSQL database](https://www.postgresql.org/download/) are required. 
+
+R version in which the tool was developed is 3.3.0. The list of packages and their version can be found at `packrat` folder on the [repository main page](https://github.com/grupoaia/rain-fp7). If you restore that packrat snapshot ([more info](http://rstudio.github.io/packrat/walkthrough.html)), the tool should work.
+
+1. Download the `global.R`, `server.R`, and `ui.R` files and the `data`, `scripts`, and `www` folders in a dedicated folder (e.g. `rain_webtool`). 
+2. Create the Alpine schema and required tables, and insert the data using the database dump (`RAIN_Alpine_database.sql`) available at `data` folder. ([For more information check postgresql documentation ](https://www.postgresql.org/docs/8.1/static/backup.html#BACKUP-DUMP-RESTORE).)
+3. 
+
+
 ----------
 *RAIN project has received funding from the European Union's Seventh Programme for research, technological development and demonstration under grant agreement N. 608166.*
