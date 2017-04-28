@@ -29,8 +29,9 @@ R version in which the tool was developed is 3.3.0. The list of packages and the
 
 1. Download the `global.R`, `server.R`, and `ui.R` files and the `data`, `scripts`, and `www` folders in a dedicated folder (e.g. `rain_webtool`). 
 2. Create the Alpine schema and required tables, and insert the data using the database dump (`RAIN_Alpine_database.sql`) available at `data` folder. ([For more information check postgresql documentation ](https://www.postgresql.org/docs/8.1/static/backup.html#BACKUP-DUMP-RESTORE).)
-3. Check that required libraries are installed (or use the packrat configuration available at the [root of the repository](https://github.com/grupoaia/rain-fp7)). Some functionalities may depend on the package version.
+3. Check that required libraries are installed. Some functionalities may depend on the package version.You may use the packrat configuration available at the [root of the repository](https://github.com/grupoaia/rain-fp7)). All packages are included there except `h2o`. You should install the 3.10.3.3 Version following `install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/rel-tverberg/3/R")))` after installing the other dependencies.
 
+Now you should be able to run the shiny app (e.g. `R -e "shiny::runApp('~/rain_webtool')"`, or from Rstudio click on *Run App*).
 
 ----------
 *RAIN project has received funding from the European Union's Seventh Programme for research, technological development and demonstration under grant agreement N. 608166.*
