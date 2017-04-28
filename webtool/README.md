@@ -29,7 +29,7 @@ R version in which the tool was developed is 3.3.0. The list of packages and the
 
 1. Download the `global.R`, `server.R`, and `ui.R` files and the `data`, `scripts`, and `www` folders in a dedicated folder (e.g. `rain_webtool`). 
 2. Create the Alpine schema and required tables, and insert the data using the database dump (`RAIN_Alpine_database.sql`) available at `data` folder. ([For more information check postgresql documentation ](https://www.postgresql.org/docs/8.1/static/backup.html#BACKUP-DUMP-RESTORE).)
-3. 
+3. Check that required libraries are installed (or use the packrat configuration available at the [root of the repository](https://github.com/grupoaia/rain-fp7)). Some functionalities may depend on the package version.
 
 
 ----------

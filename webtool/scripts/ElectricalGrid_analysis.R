@@ -27,7 +27,7 @@ require(stringr)
 
 # Get grid information ----------------------------------------------------
 
-net <- get.grid("..")
+net <- get.grid()
 lines.minor <- grep("S0", as_ids(V(net)), value = T)
 lines.minor.end <- grep("Se", as_ids(V(net)), value = T)
 lines.HV <- grep("S[1-9]", as_ids(V(net)), value = T)

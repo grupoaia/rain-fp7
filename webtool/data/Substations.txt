@@ -1,0 +1,35 @@
+id,     name    , color.background  , color.border , color.highlight.background  , color.highlight.border     , opacity, group
+SIHa,   SIHa    , gray              , black        , gray              , black            , 0.5      ,  132k  
+SIHb,   SIHb    , gray              , black        , gray              , black            , 0.5      ,  132k
+SIhh,   SIhh    , chocolate         , black        , gray              , black            , 0.5      ,  60k
+S1,     S1hhmm  , chocolate         , red          , chocolate         , red              , 0.5      ,  60k Minor
+S2,     S2hhm   , chocolate         , red          , chocolate         , red              , 0.5      ,  60k Minor
+S3,     S3hhm   , chocolate         , red          , chocolate         , red              , 0.5      ,  60k Minor
+S4,     S4hhm   , chocolate         , red          , chocolate         , red              , 0.5      ,  60k Minor
+S5,     S5hhmm  , chocolate         , red          , chocolate         , red              , 0.5      ,  60k Minor
+S6,     S6hhmm  , chocolate         , red          , chocolate         , red              , 0.5      ,  60k Minor
+S7,     S7hhmm  , chocolate         , red          , chocolate         , red              , 0.5      ,  60k Minor
+S8,     S8hhmm  , chocolate         , red          , chocolate         , red              , 0.5      ,  60k Minor
+S9,     S9Hhhmmm, chocolate         , red          , chocolate         , red              , 0.5      ,  132k 60k Minor
+S01,    S01mm   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor 
+S02,    S02mmm  , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+S03,    S03mmm  , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+S04,    S04mm   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+S05,    S05mm   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+S06,    S06mmm  , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+S07,    S07mm   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+S08,    S08mmm  , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+S09,    S09mmm  , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem1,   Sem1    , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem4,   Sem4    , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem7,   Sem7    , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem8,   Sem8    , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem9,   Sem9    , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem14,  Sem14   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem16,  Sem16   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem21,  Sem21   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem23,  Sem23   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem24,  Sem24   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem25,  Sem25   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem26,  Sem26   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor
+Sem27,  Sem27   , cornflowerblue    , blue         , cornflowerblue    , blue             , 0.5      ,  Only minor

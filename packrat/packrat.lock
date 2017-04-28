@@ -81,6 +81,12 @@ Source: CRAN
 Version: 1.1-2
 Hash: c0d56cd15034f395874c870141870c25
 
+Package: RCurl
+Source: CRAN
+Version: 1.95-4.8
+Hash: 79c7d5a8684e44e0e3426d3093aa7d90
+Requires: bitops
+
 Package: RPostgreSQL
 Source: CRAN
 Version: 0.4-1
@@ -119,6 +125,11 @@ Package: base64enc
 Source: CRAN
 Version: 0.1-3
 Hash: c590d29e555926af053055e23ee79efb
+
+Package: bitops
+Source: CRAN
+Version: 1.0-6
+Hash: 67d0775189fd0041d95abca618c5c07e
 
 Package: brew
 Source: CRAN
@@ -304,8 +315,8 @@ Hash: 488b93c2a4166db0d15f1e8d882cb1d4
 
 Package: jsonlite
 Source: CRAN
-Version: 1.3
-Hash: b9cc3c97b7a6cd513e9b516fe881d6c9
+Version: 1.4
+Hash: 24cc0ffeb1771d710173d9803a131870
 
 Package: labeling
 Source: CRAN
@@ -494,6 +505,11 @@ Source: CRAN
 Version: 1.2-4
 Hash: 4ffcf86fffee89e7b859f760528dd545
 Requires: lattice
+
+Package: statmod
+Source: CRAN
+Version: 1.4.29
+Hash: 552cc882a8340fdb8c9661b54c196b97
 
 Package: stringi
 Source: CRAN
