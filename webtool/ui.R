@@ -361,10 +361,9 @@ body <- dashboardBody(
                          htmlOutput("about")
                      ),
                      box(
-                       title = "Credits & References", width = NULL, solidHeader = TRUE, 
+                       title = "Credits", width = NULL, solidHeader = TRUE, 
                        collapsible = T, collapsed = F, #status = "warning",
-                       htmlOutput("credits"),
-                       htmlOutput("references")
+                       htmlOutput("credits")
                      ),
                      box(title = "Terms & Conditions", width = NULL, solidHeader = TRUE,
                          collapsible = T, collapsed = F,
