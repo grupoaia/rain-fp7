@@ -1,0 +1,54 @@
+<div>
+<p><strong>Incidents</strong>, defined for electrical grids, telecommunications and land transport networks, are analysed at two levels:</p>
+<ul>
+<li><strong>Global or macroscopic level</strong>: impact at the regional level or geographical area analysed (regional level refers to the region analysed: it can be at the municipality, county, region, national or international levels) is assessed. This analysis includes not only the (direct) repercussions on the elements of the infrastructure (repairing, replacing) but also the indirect effects of the incident.</li>
+<li><strong>Local or microscopic level</strong>: the focus is on the impact on the elements of the electrical grid, telecommunications or land transportation network. Only direct consequences are assessed.</li>
+</ul>
+<p>Probability of failure is assigned to each component as function of its properties, the characteristics of the Extreme Weather Event (EWE) considered, and geographical information. This local information is then integrated to obtain the global incident probability and impact.</p>
+<p>A module that computes the <strong>incident probabilities of different network components and global incidents</strong> was developed and integrated in the webtool. This first version of the webtool fully complies with the risk decision framework developed within RAIN project and it has been adapted to the data available for its application to the Alpine case study (Val Canale incident).</p>
+
+<p>This tool uses the electrical connectivity analysis approach module to assess effects on the electrical and telecommunication networs. A second tool was developed that uses the load flow computation approach, which is more closely related to electrical engineering analysis. Both modules are complementary.
+<br>
+
+<h4>Incident definition</h4>
+<p>The definition of incident is slightly different depending on the infrastructure and its indirect consequences may also differ:</p>
+<ul>
+<li><strong>Electrical incident</strong>: power supply disruption or blackout. Direct consequences considered are the damage on electrical elements of the grid. Indirect repercussions include loss of productivity in the industrial sector, impact on other utility providers (e.g telecommunications or water distribution system), public transportation, or attention to vulnerable people.</li>
+<br>
+<li><strong>Telecommunications incident</strong>: disruption on the telecommunications service. Direct consequences: damage on the antennas and base stations. Indirect: impact on the access to emergency call centres, financial transaction problems, for instance.</li>
+<br>
+<li><strong>Road incident</strong>: loss of connectivity between two points in the region connected by road. Direct consequences: damage on road elements (bridges, tunnels) or road segments, also blocking of segments (that have to be cleaned). Indirect: isolation of regions, increase of the repairing times of other affected infrastructures (difficulties to reach affected points), increase in evacuating times (in case medical attention is needed, for instance), etc.</li>
+<br>
+<li><strong>Railway incident</strong>: loss of connectivity between two points in the region connected by train. Direct consequences: damage on railway elements (bridges, tunnels) or track segments, also blocking of segments (that have to be cleaned). Indirect: in combination to road incidents it may lead to complete region isolation.</li>
+</ul>
+<br>
+
+<h4>Context design</h4>
+
+<p>Context refers to the geographical region studied, the particular (extreme) weather event considered and the available preventive protection measures.</p>
+<p>Whenever information is available, actual electricity grid configuration is used. Otherwise, Openstreetmap data is used to obtain properties and location of the electrical grid and its elements.</p>
+<p>Similarly, real information is used for the telecommunications network when available.</p>
+<p>In the current version of the tool, land transportation information is obtained from Openstreetmap.</p>
+
+<br>
+
+<h4>Assessment procedure and assumptions</h4>
+
+<p><strong>Incident probability</strong> is assessed as follows:</p>
+<ol>
+<li><strong>Principal failure modes</strong> of the <strong>individual elements</strong> of the infrastructure considered (e.g. communication towers, bridges, transmission lines) are obtained per EWE: the main physical features and variables that determine the probability of failure by different channels (or failure modes) and EWE intensities are first identified for each component and meteorological threat. For instance: for heavy precipitation, impact on bridges is through increase in river flow that may cause scour, but impact on the electrical transmission towers is through landslides.</li>
+<li><strong>Probabilities of occurrence </strong>of the <strong>trigger event(s) or exceedance of threshold of the failure mode</strong> (river flow or landslide in the proposed examples) are assessed.<br /> In some cases, these probabilities are computed at the scale of the region (global). Then, <strong>susceptibility maps</strong> with local information about the impact of this global probability on each specific point (x,y) are also used. For instance: landslide occurrence depends on the geological properties of the ground that can be condensed (as an approximation) in a susceptibility map.</li>
+<li>Using the <strong>weighting methodology</strong> developed within the project (defined in the <em>Element failure weighting methodology</em> subsection below), the <strong>relative importance </strong>of the various factors affecting the<strong> status of each element</strong> (building material, age of the element, maintenance status, etc.) is determined by a Delphi panel composed by a group of experts. In some specific cases, <strong>fragility curves </strong>are available (for instance, damage probability for transmission towers as function of wind speed), that allows the tool has a more precise dependence on the event intensity.</li>
+<li><strong>Failure probabilities of individual elements </strong>are computed as a combination of the information obtained as: <em>P_elementfailure = status.prob * probability.trigger (* susc.prob)</em>, where, <em>status.prob</em> is the failure probability of the element itself derived from the weighting methodology or fragility curves, <em>probability.trigger</em> is the probability of the trigger event obtained at point 2, and optionally the susceptibility (local information tuning of the probability of the trigger) <em>susc.prob</em> can be also used.</li>
+<li><strong>Incident probability </strong>is computed combining the failure probabilities of each individual element of the infrastructure and the topological and operational information of the infrastructure considered. For example, damage on a bridge of a road may not imply a road incident (considered as loss of connectivity) if an alternative route between the two points considered exists. To assess this probability, different approaches (based on Bayesian networks or Monte Carlo simulations) are followed depending on the infrastructure and the available data (see subsections below).</li>
+</ol>
+<br>
+<p>With the incident probabilities obtained, <strong>consequences </strong>are computed:</p>
+<ol>
+<li><strong>Direct costs </strong>can be assessed using the failure probabilities of individual elements and the data on their repairing or replacement costs.</li>
+<li><strong>Indirect costs</strong> are assessed considering the incident probability and its consequences.</li>
+</ol>
+<p>&nbsp;</p>
+
+<p>More details on the implementation of the webtool are provided on the <a href="http://rain-project.eu/about/deliverables/", target ="_blank">Deliverable D5.4 Web Based Tool for incident probability forecasting</a> available at the RAIN project website.
+</div>

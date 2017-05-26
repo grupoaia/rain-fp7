@@ -344,11 +344,7 @@ body <- dashboardBody(
                      box(
                        title = "Analysis", width = NULL, solidHeader = TRUE, 
                        collapsible = T, collapsed = F, #status = "warning",
-                       htmlOutput("technicalDetailsAnalysis")),
-                     box(
-                       title = "Simulation", width = NULL, solidHeader = TRUE, 
-                       collapsible = T, collapsed = F, 
-                       htmlOutput("technicalDetailsSimulation"))
+                       htmlOutput("technicalDetailsAnalysis"))
               )
             )
     ),
