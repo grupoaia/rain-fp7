@@ -320,7 +320,8 @@ shinyServer(function(input, output, session) {
   
   probabilities <- reactiveValues(landslide = NULL, # probabilities.initialize()$p1, 
                                   landslide.perc = NULL, #round(probabilities.initialize()$p1*100), 
-                                  best.points = NULL)
+                                  best.points = NULL,
+                                  best.points.land = NULL)
   
   observeEvent(input$reassessButton, {
     ewe$collapsed <- TRUE
@@ -976,6 +977,94 @@ shinyServer(function(input, output, session) {
                        width = "100%", height = "500px")
     )
   })
+  
+  
+  # Consequences roads ---------------
+  observeEvent(input$reassessConsequences_road, {
+    progress <- shiny::Progress$new()
+    progress$set(message = "Assessing consequences... ", value = 0)
+    on.exit(progress$close())
+    
+    updateProgress <- function(value = NULL, detail = NULL) {
+      if (is.null(value)) {
+        value <- progress$getValue()
+        value <- value + (progress$getMax() - value) / 5
+      }
+      progress$set(value = value, detail = detail)
+    }
+    
+    consequences.investment <- consequences.investment.assess.all.road(probs.and.costs.land.reactive(),  
+                                                                       node.interest = "RoadFailure",  
+                                                                       improvement.n.max = improvement.n.max.ctt,
+                                                                       improvement.n.group = 3,
+                                                                       prob.landslide  = probabilities$landslide, 
+                                                                       shinyProgress = updateProgress,
+                                                                       plist.land.init.data. = get.plist.land.init.data(),
+                                                                       cost.failure = 2500000) 
+    
+    print("============ obtaining consequences best points")
+    probabilities$best.points.land <- consequences.investment.assess.best(consequences.investment)
+    
+    # saveRDS(consequences.investment, file = "Demo_X_consequences_investment.rds")
+    # saveRDS(probabilities$best.points, file = "Demo_X_consequences_investment_best_points.rds")
+  })
+  
+  
+  output$consequences.investment.road.plot <- renderPlotly(
+    consequences.investment.plot(probabilities$best.points.land)
+  )
+  output$consequences.investment.road.plotbars <- renderPlotly(
+    consequences.investment.plotbars(probabilities$best.points.land)
+  )
+  
+  
+  
+  output$consequences.investment.road.ui <- renderUI( {
+    if (is.null(probabilities$best.points.land)) {
+      box(
+        title = "Consequences plot",
+        width = NULL,
+        color = "black", collapsible = T, collapsed = FALSE, status = "success",
+        p("To assess the economic consequences of a blackout and the possible
+          protection measures to be considered, click the Assess Consequences button."),
+        actionButton("reassessConsequences_road", "Assess Consequences",
+                     icon = icon("retweet"))
+        )
+    } else {
+      box(
+        title = "Consequences plot", 
+        width = NULL, 
+        color = "black", collapsible = T, collapsed = FALSE, status = "success",
+        p("To (re)assess the economic consequences of a road failure and the possible 
+          protection measures to be considered in the new weather event scenario, 
+          click the (r)Assess Consequences button."),
+        actionButton("reassessConsequences_road", "(re)Assess Consequences", 
+                     icon = icon("retweet")),
+        hr(),
+        p(paste0("Probability of occurence of XXXXX",
+                 " as a function of the investment in preventive protection. 
+                 The expected total final cost (considering the expected indirect
+                 costs of the road failure, the expected direct repairing costs, and the 
+                 costs of the investment. The darker the marker, the better 
+                 the investment scenario is.")),
+        p("On hovering a datapoint, information regarding the total cost and 
+          the components invested in is shown."),
+        plotlyOutput("consequences.investment.road.plot"),
+        hr(),
+        p("The costs of the ten best investment scenarios are broken down in 
+          investment cost, expected road failure (considering the probability 
+          of  failure occurrence), and expected repairing cost of the affected 
+          elements. These values are shown in the folowing figure." ),
+        p("On hover, information regarding the investment scenario (elements 
+          invested in) and the value of the expected total cost are displayed. 
+          Clicking on the legend allows to hide/show each type of cost."),
+        plotlyOutput("consequences.investment.road.plotbars")
+        )
+    }
+  })
+  
+  
+  
   
   # <-- Land Transportation BN : train ---------------------------------------
   

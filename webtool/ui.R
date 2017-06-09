@@ -241,7 +241,9 @@ body <- dashboardBody(
                        leafletOutput("trans_map", height = "500px"),
                        uiOutput("maproads"),
                        uiOutput("nodes.road.BN"),
-                       uiOutput("nodes.train.BN")
+                       uiOutput("nodes.train.BN"),
+                       uiOutput("risk.profile.train.UI"),
+                       uiOutput("consequences.investment.road.ui")
                      )
               )
             )

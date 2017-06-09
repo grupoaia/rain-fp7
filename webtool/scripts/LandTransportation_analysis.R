@@ -229,3 +229,153 @@ get.train.BN <- function(electrical.node.id = c("S9Hhhmmm", "S4hhm"),
                            probs.and.costs = probs.and.costs,
                            plist.init.data = plist.init.data))
 }
+
+
+
+consequences.investment.assess.all.road <- function(probs.and.costs,  
+                                                    node.interest, 
+                                                    improvement.n.max = 11,
+                                                    improvement.n.group = 3,
+                                                    prob.landslide  = prob.landslide, 
+                                                    shinyProgress = NULL,
+                                                    plist.land.init.data. = get.plist.land.init.data(),
+                                                    cost.failure = 2500000) {
+  
+  probs.and.costs. <- copy(probs.and.costs)
+  aux <- get.plist.land.gr(probs.and.costs = NULL,
+                           improved.nodes = NULL, plist.land.init.data = plist.land.init.data., 
+                           prob.landslide = prob.landslide)
+  node.interest <- "RoadFailure"
+  plist.gr <- aux[["plist.land.gr"]]
+  conds <- get.conditionals.land(bn = plist.gr,node.head = node.interest) %>% arrange(desc(yes)) %>% dplyr::select(-no)
+  conds$relevance <- rownames(conds)
+  
+  # improvement.n.max most promising, groups of 0,1,2,...,improvement.n.group elements
+  subs <- get.subsets(conds$name %>% head(improvement.n.max), improvement.n.group) 
+  
+  # Dataframe containing the computed costs and probs for each scenario of protection
+  consequences.investment <- data.frame(id = numeric() , invest = numeric(), blackout = numeric(),
+                                        repairing = numeric(), total = numeric(), prob.fallo = numeric())
+  
+  q <- length(subs)
+  # q <- 50
+  pb <- txtProgressBar(min = 1, max = q, style = 3)
+  
+  verbose <- F
+  
+  for (i in 1:q) {
+    if (verbose) {
+      cat(paste0("-----------------------------------(", i, "/", q, ")\n"))
+    }
+    res <- costs.total.land(cost.blackout = cost.failure,
+                            node.head = node.interest,
+                            data = probs.and.costs.,
+                            prob.landslide = prob.landslide,
+                            improved.nodes = subs[[i]],
+                            plist.land.init.data. = plist.land.init.data.)
+    
+    res <- c(i, res)
+    consequences.investment[nrow(consequences.investment) + 1, ] <- res
+    setTxtProgressBar(pb, i)
+    if (is.function(shinyProgress)) {
+      shinyProgress(value = i/q)
+    }
+  }
+  
+  # add the names of the protected components
+  consequences.investment$comb <- sapply(FUN = function(x) paste(x, collapse = " | "), X = subs[1:q])
+  
+  # adding the row "without investment"
+  res <- costs.total.land(cost.blackout = cost.failure,
+                          node.head = node.interest,
+                          data = probs.and.costs.,
+                          improved.nodes = c(),
+                          plist.land.init.data. = plist.land.init.data.)
+  
+  res <- c(0, res, NA)
+  consequences.investment[nrow(consequences.investment) + 1, ] <- res  
+  
+  # add the ranking in relevances
+  consequences.investment <- consequences.investment %>% dplyr::arrange(total) 
+  consequences.investment <- consequences.investment %>% dplyr::rowwise() 
+  
+  setDT(consequences.investment)
+  # consequences.investment[, relevancias := relevancia(as.data.frame(conds), subs, id)]
+  consequences.investment[, idoneo := prob.fallo * log10(invest)]
+  consequences.investment[, l.invest := log10(invest)]
+  
+  return(consequences.investment)
+}
+
+
+get.conditionals.land <- function(bn, node.head){
+  
+  bn.wo.connectivity <- setEvidence(bn, nodes = c(node.head), states = c("yes"))
+  
+  nodos.fallables <- grep("B", bn$dag@nodes, value = T)
+  
+  aux <- data.frame(querygrain(bn.wo.connectivity, nodes = nodos.fallables))
+  conditional <- data.table(t(aux))
+  conditional[, name := names(aux)]
+  
+  return(conditional)
+}
+
+costs.total.land <- function(cost.blackout, node.head, data, improved.nodes,
+                             verbose = FALSE, prob.landslide = prob.landslide, 
+                             plist.land.init.data. = NULL){
+  
+  network <- get.plist.land.gr(probs.and.costs = data,
+                               improved.nodes = improved.nodes, plist.land.init.data = plist.land.init.data., 
+                               prob.landslide = prob.landslide)
+  
+  bn <- network[["plist.land.gr"]]
+  c.inv <- network[["c.land.invest"]] 
+  
+  prob.black.out <- querygrain(bn, nodes = c(node.head))[[1]]["yes"]
+  
+  cost.bo.expected <- cost.blackout * prob.black.out
+  cost.bo.std <- cost.blackout * sqrt(prob.black.out * (1 - prob.black.out))
+  cost.bo.UB <- cost.bo.expected + cost.bo.std
+  cost.bo.LB <- cost.bo.expected - cost.bo.std
+  cost.bo.UB <- ifelse(cost.bo.UB > cost.blackout, cost.blackout, cost.bo.UB)
+  cost.bo.LB <- ifelse(cost.bo.UB < 0, 0, cost.bo.LB)
+  
+  c.bo <- (cost.bo.expected + cost.bo.UB + cost.bo.LB)/3
+  c.rep <- costs.repairing.land(prob.black.out, bn, node.head, data)
+  
+  total <- c.bo + c.rep + c.inv
+  
+  if (verbose) {
+    cat(paste("***BLACKOUT in ", node.head, "*******",
+              "\n   Prob =", pe(prob.black.out),
+              "\n\n   Cost investment   = ", mo(c.inv),
+              "\n   <Cost Blackout>   = ", mo(c.bo),
+              "\n   <Cost repairing>  = ", mo(c.rep),
+              "\n----------------------",
+              "\n       total = ", mo(total),
+              "\n\n"
+    ))
+  }
+  
+  c(c.invest = c.inv, c.bo = c.bo, 
+    c.rep = c.rep, total = total, 
+    prob.bo = prob.black.out)
+}
+
+
+costs.repairing.land <- function(prob.black.out, bn, node.head, data){
+  conditional <- get.conditionals.land(bn, node.head)
+  
+  buf <- merge(conditional %>% dplyr::select(-no), data %>% dplyr::select(name, cost.rep))
+  
+  setnames(buf, "yes", "posterior")
+  buf[, aux.std := sqrt(posterior * (1 - posterior)) * cost.rep]
+  buf[, aux.expected := posterior * cost.rep]
+  buf[, `:=`(cost.rep.LB = aux.expected - aux.std,
+             cost.rep.UB = aux.expected + aux.std)]
+  buf[cost.rep.LB < 0,        cost.rep.LB := 0]
+  buf[cost.rep.UB > cost.rep, cost.rep.UB := cost.rep]
+  
+  return(prob.black.out * buf[, sum((aux.expected + cost.rep.LB + cost.rep.UB)/3)])
+}
