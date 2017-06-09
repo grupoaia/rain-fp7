@@ -196,7 +196,6 @@ shinyServer(function(input, output, session) {
     )
   })
   
-  
   observeEvent(input$trans_ewe, {
     ewe$name <- input$trans_ewe
     ewe.info$title <- get.ewe.info.title()
@@ -602,29 +601,31 @@ shinyServer(function(input, output, session) {
   observeEvent(input$map_marker_click, {
     print(paste0("input$map_marker_click: ", input$map_marker_click))
     print(paste0("input$map_marker_click$id: ", input$map_marker_click$id))
-    if (!is.null( input$map_marker_click$id)) {
-      aux.id <- gsub(pattern = "_", replacement = "", input$map_marker_click$id)
-      # if (!is.null( input$map_marker_click$id) & input$map_marker_click$id != "Selected") {
-      if (aux.id %in% towns$stations) {
-        if (is.null(electrical.BN$node.id)) {
-          electrical.BN$node.id <- aux.id
-          electrical.BN$name <- towns[stations == electrical.BN$node.id, name]
-          updateSelectInput(session, "town",
-                            selected = electrical.BN$name )
-        } else {
-          if (aux.id != electrical.BN$node.id & aux.id != "Selected") {
+    if (!input$demo) { 
+      if (!is.null( input$map_marker_click$id)) {
+        aux.id <- gsub(pattern = "_", replacement = "", input$map_marker_click$id)
+        # if (!is.null( input$map_marker_click$id) & input$map_marker_click$id != "Selected") {
+        if (aux.id %in% towns$stations) {
+          if (is.null(electrical.BN$node.id)) {
             electrical.BN$node.id <- aux.id
             electrical.BN$name <- towns[stations == electrical.BN$node.id, name]
             updateSelectInput(session, "town",
                               selected = electrical.BN$name )
+          } else {
+            if (aux.id != electrical.BN$node.id & aux.id != "Selected") {
+              electrical.BN$node.id <- aux.id
+              electrical.BN$name <- towns[stations == electrical.BN$node.id, name]
+              updateSelectInput(session, "town",
+                                selected = electrical.BN$name )
+            }
           }
+        } else if (aux.id != "Selected") {
+          electrical.BN$node.id <- aux.id
+          electrical.BN$name <- aux.id
+          leafletProxy("map") %>%
+            clearGroup(group = "Selected town") 
+          updateSelectInput(session, "town", selected = "(none)")
         }
-      } else if (aux.id != "Selected") {
-        electrical.BN$node.id <- aux.id
-        electrical.BN$name <- aux.id
-        leafletProxy("map") %>%
-          clearGroup(group = "Selected town") 
-        updateSelectInput(session, "town", selected = "(none)")
       }
     }
   })
